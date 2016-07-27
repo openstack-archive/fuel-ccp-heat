@@ -1,0 +1,9 @@
+FROM {{ namespace }}/heat-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+#mysql-client only for provisioning need to be removed later
+RUN apt-get install -y --no-install-recommends \
+        mysql-client \
+    && apt-get clean
+
+USER heat
