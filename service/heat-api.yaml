@@ -1,0 +1,45 @@
+service:
+  name: heat-api
+  ports:
+    - heat_api_port
+  node-selector:
+    openstack-controller: "true"
+  containers:
+    - name: heat-api
+      image: heat-api
+      # TODO(drusskikh): add probes
+      probes:
+        readiness: "true"
+        liveness: "true"
+      pre:
+        - name: heat-db-create
+          dependencies:
+            - mariadb
+          type: single
+          command:
+            mysql -u root -p{{ db_root_password }} -h mariadb -e "create database {{ heat_db_name }};
+            grant all privileges on {{ heat_db_name }}.* to '{{ heat_db_username }}'@'%' identified by '{{ heat_db_password }}';"
+        - name: heat-db-sync
+          files:
+            - heat-conf
+          dependencies:
+            - heat-db-create
+          type: single
+          command: heat-manage db_sync
+        - name: heat-service-registry
+          dependencies:
+            - keystone
+          type: single
+          command:
+            heat-service-registry.sh keystone {{ keystone_admin_port }} {{ openstack_user_name }} {{ openstack_user_password }}
+            {{ openstack_project_name }} default {{ heat_user }} {{ heat_password }} {{ heat_api_port }}
+      daemon:
+        name: heat-api
+        files:
+          - heat-conf
+        command: heat-api
+
+files:
+  heat-conf:
+    path: /etc/heat/heat.conf
+    content: heat.conf.j2

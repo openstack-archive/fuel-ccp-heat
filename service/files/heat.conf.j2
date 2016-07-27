@@ -1,0 +1,50 @@
+[DEFAULT]
+debug = {{ heat_debug }}
+use_syslog = False
+use_stderr = True
+use_forwarded_for = True
+region_name_for_services = RegionOne
+rpc_backend = rabbit
+
+[database]
+connection = mysql+pymysql://{{ heat_db_username }}:{{ heat_db_password }}@mariadb/{{ heat_db_name }}
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = rabbitmq
+
+[keystone_authtoken]
+auth_uri = http://keystone:{{ keystone_public_port }}
+auth_url = http://keystone:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = {{ openstack_project_name }}
+username = {{ heat_user }}
+password = {{ heat_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ heat_memcache_secret_key }}
+memcached_servers = memcached:{{ memcached_port }}
+
+[trustee]
+user_domain_id = default
+password = {{ heat_keystone_password }}
+username = {{ heat_keystone_username }}
+auth_uri = http://keystone:{{ keystone_public_port }}
+auth_url = http://keystone:{{ keystone_admin_port }}
+auth_type = password
+
+[clients_keystone]
+auth_uri = http://keystone:{{ keystone_public_port }}
+
+[heat_api]
+bind_host = {{ network_topology["private"]["address"] }}
+bind_port = {{ heat_api_port }}
+
+[cache]
+backend = oslo_cache.memcache_pool
+enabled = True
+memcache_servers = memcached:{{ memcached_port }}

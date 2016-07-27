@@ -1,0 +1,24 @@
+service:
+  name: heat-engine
+  host-net: true
+  daemonset: true
+  node-selector:
+    openstack-controller: "true"
+  containers:
+    - name: heat-engine
+      image: heat-engine
+      privileged: true
+      probes:
+        readiness: "true"
+        liveness: "true"
+      daemon:
+        command: heat-engine --config-file /etc/heat/heat.conf
+        dependencies:
+          - heat-api
+        files:
+          - heat.conf
+files:
+  heat.conf:
+    path: /etc/heat/heat.conf
+    content: heat.conf.j2
+    perm: "0600"

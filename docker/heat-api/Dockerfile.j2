@@ -1,0 +1,10 @@
+FROM {{ namespace }}/heat-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+COPY heat-service-registry.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/heat-service-registry.sh
+
+#mysql-client only for provisioning need to be removed later
+RUN apt-get install -y --no-install-recommends \
+        mysql-client \
+    && apt-get clean
