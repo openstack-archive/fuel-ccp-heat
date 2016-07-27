@@ -1,0 +1,13 @@
+FROM {{ namespace }}/openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+RUN curl -o heat-{{ branch }}.tar.gz http://tarballs.openstack.org/heat/heat-{{ branch }}.tar.gz \
+    && tar -zxvf heat-{{ branch }}.tar.gz
+
+RUN mv heat*/ heat-{{ branch }}/ \
+    &&  ln -s heat-{{ branch }} /heat \
+    && useradd --user-group heat \
+    && /var/lib/microservices/venv/bin/pip --no-cache-dir install --upgrade -c /heat/requirements.txt /heat \
+    && mkdir -p /var/lib/heat /etc/heat \
+    && chown -R heat: /var/lib/heat /etc/heat \
+    && cp -r /heat/etc/heat/* /etc/heat
