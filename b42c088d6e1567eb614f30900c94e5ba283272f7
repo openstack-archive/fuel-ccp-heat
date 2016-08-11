@@ -1,0 +1,10 @@
+Code-Review+2: Proskurin Kirill <kproskurin@mirantis.com>
+Code-Review+1: Andrey Pavlov <apavlov@mirantis.com>
+Code-Review+2: Sergey Reshetnyak <sreshetniak@mirantis.com>
+Workflow+1: Proskurin Kirill <kproskurin@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 11 Aug 2016 14:08:32 +0000
+Reviewed-on: https://review.openstack.org/347784
+Project: openstack/fuel-ccp-heat
+Branch: refs/heads/master
