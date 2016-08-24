@@ -1,13 +1,18 @@
 configs:
-    heat_api_port: 8004
+  heat_api_port: 8004
 
-    heat_db_username: heat
-    heat_db_password: password
-    heat_db_name: heat
+  heat_db_username: heat
+  heat_db_password: password
+  heat_db_name: heat
 
-    heat_user: heat
-    heat_password: password
+  heat_user: heat
+  heat_password: password
 
-    heat_memcache_secret_key: secret_key
+  heat_memcache_secret_key: secret_key
 
-    heat_debug: false
+  heat_debug: false
+
+sources:
+  openstack/heat:
+    git_url: https://github.com/openstack/heat.git
+    git_ref: master
