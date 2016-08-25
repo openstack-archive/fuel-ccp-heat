@@ -61,7 +61,6 @@ service:
           command:
               openstack endpoint create --region RegionOne orchestration admin http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
       daemon:
-        name: heat-api
         dependencies:
           - rabbitmq
         files:
