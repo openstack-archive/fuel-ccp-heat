@@ -1,7 +1,7 @@
 service:
   name: heat-api
   ports:
-    - heat_api_port
+    - {{ heat_api_port }}
   containers:
     - name: heat-api
       image: heat-api
