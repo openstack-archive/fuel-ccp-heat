@@ -8,8 +8,6 @@ configs:
   heat_user: heat
   heat_password: password
 
-  heat_memcache_secret_key: secret_key
-
   heat_debug: false
 
 sources:
