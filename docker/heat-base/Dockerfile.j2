@@ -4,7 +4,7 @@ MAINTAINER {{ maintainer }}
 {{ copy_sources("openstack/heat", "/heat") }}
 
 RUN useradd --user-group heat \
-    && /var/lib/microservices/venv/bin/pip --no-cache-dir install --upgrade -c /heat/requirements.txt /heat \
+    && /var/lib/microservices/venv/bin/pip --no-cache-dir install --upgrade -c /heat/requirements.txt /heat python-memcached \
     && mkdir -p /var/lib/heat /etc/heat \
     && chown -R heat: /var/lib/heat /etc/heat \
     && cp -r /heat/etc/heat/* /etc/heat \
