@@ -29,37 +29,37 @@ service:
             - keystone-create-project
           type: single
           command:
-              openstack user create --domain default --password {{ heat_password }} {{ heat_user }}
+            openstack user create --domain default --password {{ heat_password }} {{ heat_user }}
         - name: heat-role-add
           dependencies:
             - heat-user-create
           type: single
           command:
-              openstack role add --project {{ openstack_project_name }} --user {{ heat_user }} admin
+            openstack role add --project {{ openstack_project_name }} --user {{ heat_user }} admin
         - name: heat-service-create
           dependencies:
             - keystone-create-project
           type: single
           command:
-              openstack service create --name heat --description "OpenStack orchestration service" orchestration
+            openstack service create --name heat --description "OpenStack orchestration service" orchestration
         - name: heat-public-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-              openstack endpoint create --region RegionOne orchestration public http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration public http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
         - name: heat-internal-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-              openstack endpoint create --region RegionOne orchestration internal http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration internal http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
         - name: heat-admin-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-              openstack endpoint create --region RegionOne orchestration admin http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration admin http://heat-api:{{ heat_api_port }}/v1/%\(tenant_id\)s
       daemon:
         dependencies:
           - rabbitmq
