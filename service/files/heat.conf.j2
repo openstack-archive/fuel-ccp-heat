@@ -7,7 +7,7 @@ region_name_for_services = RegionOne
 rpc_backend = rabbit
 
 [database]
-connection = mysql+pymysql://{{ heat_db_username }}:{{ heat_db_password }}@mariadb/{{ heat_db_name }}
+connection = mysql+pymysql://{{ heat_db_username }}:{{ heat_db_password }}@{{ address('mariadb') }}/{{ heat_db_name }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}
@@ -17,26 +17,26 @@ rabbit_hosts = rabbitmq
 
 [keystone_authtoken]
 auth_version = v3
-auth_uri = http://keystone:{{ keystone_public_port }}/v3
-auth_url = http://keystone:{{ keystone_admin_port }}/v3
+auth_uri = http://{{ address('keystone') }}:{{ keystone_public_port }}/v3
+auth_url = http://{{ address('keystone') }}:{{ keystone_admin_port }}/v3
 auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = {{ openstack_project_name }}
 username = {{ heat_user }}
 password = {{ heat_password }}
-memcached_servers = memcached:{{ memcached_port }}
+memcached_servers = {{ address('memcached') }}:{{ memcached_port }}
 
 [trustee]
 user_domain_id = default
 password = {{ heat_password }}
 username = {{ heat_user }}
-auth_uri = http://keystone:{{ keystone_public_port }}
-auth_url = http://keystone:{{ keystone_admin_port }}
+auth_uri = http://{{ address('keystone') }}:{{ keystone_public_port }}
+auth_url = http://{{ address('keystone') }}:{{ keystone_admin_port }}
 auth_type = password
 
 [clients_keystone]
-auth_uri = http://keystone:{{ keystone_public_port }}
+auth_uri = http://{{ address('keystone') }}:{{ keystone_public_port }}
 
 [heat_api]
 bind_host = {{ network_topology["private"]["address"] }}
@@ -45,4 +45,4 @@ bind_port = {{ heat_api_port }}
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = memcached:{{ memcached_port }}
+memcache_servers = {{ address('memcached') }}:{{ memcached_port }}
