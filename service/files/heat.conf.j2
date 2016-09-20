@@ -25,9 +25,6 @@ user_domain_id = default
 project_name = {{ openstack_project_name }}
 username = {{ heat_user }}
 password = {{ heat_password }}
-
-memcache_security_strategy = ENCRYPT
-memcache_secret_key = {{ heat_memcache_secret_key }}
 memcached_servers = memcached:{{ memcached_port }}
 
 [trustee]
