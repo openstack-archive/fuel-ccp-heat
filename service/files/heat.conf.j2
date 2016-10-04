@@ -25,7 +25,7 @@ user_domain_id = default
 project_name = {{ openstack.project_name }}
 username = {{ heat_user }}
 password = {{ heat_password }}
-memcached_servers = {{ address('memcached') }}:{{ memcached_port }}
+memcached_servers = {{ address('memcached') }}:{{ memcached.port }}
 
 [trustee]
 user_domain_id = default
@@ -45,4 +45,4 @@ bind_port = {{ heat_api_port }}
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = {{ address('memcached') }}:{{ memcached_port }}
+memcache_servers = {{ address('memcached') }}:{{ memcached.port }}
