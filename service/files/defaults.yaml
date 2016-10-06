@@ -13,4 +13,4 @@ configs:
 sources:
   openstack/heat:
     git_url: https://github.com/openstack/heat.git
-    git_ref: master
+    git_ref: stable/newton
