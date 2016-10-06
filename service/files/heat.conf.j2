@@ -10,8 +10,8 @@ rpc_backend = rabbit
 connection = mysql+pymysql://{{ heat_db_username }}:{{ heat_db_password }}@{{ address('mariadb') }}/{{ heat_db_name }}
 
 [oslo_messaging_rabbit]
-rabbit_userid = {{ rabbitmq_user }}
-rabbit_password = {{ rabbitmq_password }}
+rabbit_userid = {{ rabbitmq.user }}
+rabbit_password = {{ rabbitmq.password }}
 rabbit_ha_queues = true
 rabbit_hosts = rabbitmq
 
