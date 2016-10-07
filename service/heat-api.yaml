@@ -1,7 +1,7 @@
 service:
   name: heat-api
   ports:
-    - {{ heat_api_port }}
+    - {{ heat.api_port }}
   containers:
     - name: heat-api
       image: heat-api
@@ -15,8 +15,8 @@ service:
             - mariadb
           type: single
           command:
-            mysql -u root -p{{ db.root_password }} -h {{ address('mariadb') }} -e "create database {{ heat_db_name }};
-            grant all privileges on {{ heat_db_name }}.* to '{{ heat_db_username }}'@'%' identified by '{{ heat_db_password }}';"
+            mysql -u root -p{{ db.root_password }} -h {{ address('mariadb') }} -e "create database {{ heat.db.name }};
+            grant all privileges on {{ heat.db.name }}.* to '{{ heat.db.username }}'@'%' identified by '{{ heat.db.password }}';"
         - name: heat-db-sync
           files:
             - heat-conf
@@ -29,13 +29,13 @@ service:
             - keystone-create-project
           type: single
           command:
-            openstack user create --domain default --password {{ heat_password }} {{ heat_user }}
+            openstack user create --domain default --password {{ heat.password }} {{ heat.user }}
         - name: heat-role-add
           dependencies:
             - heat-user-create
           type: single
           command:
-            openstack role add --project {{ openstack.project_name }} --user {{ heat_user }} admin
+            openstack role add --project {{ openstack.project_name }} --user {{ heat.user }} admin
         - name: heat-service-create
           dependencies:
             - keystone-create-project
@@ -47,19 +47,19 @@ service:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration public http://{{ address('heat-api') }}:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration public http://{{ address('heat-api') }}:{{ heat.api_port }}/v1/%\(tenant_id\)s
         - name: heat-internal-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration internal http://{{ address('heat-api') }}:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration internal http://{{ address('heat-api') }}:{{ heat.api_port }}/v1/%\(tenant_id\)s
         - name: heat-admin-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration admin http://{{ address('heat-api') }}:{{ heat_api_port }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration admin http://{{ address('heat-api') }}:{{ heat.api_port }}/v1/%\(tenant_id\)s
       daemon:
         dependencies:
           - rabbitmq
