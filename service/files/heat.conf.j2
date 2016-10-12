@@ -6,14 +6,15 @@ use_forwarded_for = True
 region_name_for_services = RegionOne
 rpc_backend = rabbit
 
+# We need to pass an array of RBMQ server here
+# FIXME
+transport_url=rabbit://{{ rabbitmq.user }}:{{ rabbitmq.password }}@{{ address('rabbitmq') }}
+
 [database]
 connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address('mariadb') }}/{{ heat.db.name }}
 
 [oslo_messaging_rabbit]
-rabbit_userid = {{ rabbitmq.user }}
-rabbit_password = {{ rabbitmq.password }}
 rabbit_ha_queues = true
-rabbit_hosts = rabbitmq
 
 [keystone_authtoken]
 auth_version = v3
