@@ -6,7 +6,9 @@ service:
       # TODO(drusskikh): add probes
       probes:
         readiness: "true"
-        liveness: "true"
+        liveness:
+          path: "true"
+          type: "exec"
       daemon:
         command: heat-engine --config-file /etc/heat/heat.conf
         dependencies:
