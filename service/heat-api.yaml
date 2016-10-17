@@ -8,7 +8,9 @@ service:
       # TODO(drusskikh): add probes
       probes:
         readiness: "true"
-        liveness: "true"
+        liveness:
+          command: "true"
+          type: "exec"
       pre:
         - name: heat-db-create
           dependencies:
