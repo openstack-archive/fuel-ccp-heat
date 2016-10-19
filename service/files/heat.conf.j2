@@ -17,32 +17,32 @@ rabbit_hosts = rabbitmq
 
 [keystone_authtoken]
 auth_version = v3
-auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port }}/v3
-auth_url = http://{{ address('keystone') }}:{{ keystone.admin_port }}/v3
+auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port.cont }}/v3
+auth_url = http://{{ address('keystone') }}:{{ keystone.admin_port.cont }}/v3
 auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = {{ openstack.project_name }}
 username = {{ heat.user }}
 password = {{ heat.password }}
-memcached_servers = {{ address('memcached') }}:{{ memcached.port }}
+memcached_servers = {{ address('memcached') }}:{{ memcached.port.cont }}
 
 [trustee]
 user_domain_id = default
 password = {{ heat.password }}
 username = {{ heat.user }}
-auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port }}
-auth_url = http://{{ address('keystone') }}:{{ keystone.admin_port }}
+auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port.cont }}
+auth_url = http://{{ address('keystone') }}:{{ keystone.admin_port.cont }}
 auth_type = password
 
 [clients_keystone]
-auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port }}
+auth_uri = http://{{ address('keystone') }}:{{ keystone.public_port.cont }}
 
 [heat_api]
 bind_host = {{ network_topology["private"]["address"] }}
-bind_port = {{ heat.api_port }}
+bind_port = {{ heat.api_port.cont }}
 
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = {{ address('memcached') }}:{{ memcached.port }}
+memcache_servers = {{ address('memcached') }}:{{ memcached.port.cont }}

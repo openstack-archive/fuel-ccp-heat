@@ -1,6 +1,7 @@
 configs:
   heat:
-    api_port: 8004
+    api_port:
+      cont: 8004
 
     db:
       username: heat
