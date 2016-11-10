@@ -49,7 +49,7 @@ service:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration public http://{{ address('heat-api', heat.api_port, external=True) }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration public {{ address('heat-api', heat.api_port, external=True, with_scheme=True) }}/v1/%\(tenant_id\)s
         - name: heat-internal-endpoint-create
           dependencies:
             - heat-service-create
