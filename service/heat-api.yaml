@@ -55,13 +55,13 @@ service:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration internal http://{{ address('heat-api') }}:{{ heat.api_port.cont }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration internal {{ address('heat-api', heat.api_port, with_scheme=True) }}/v1/%\(tenant_id\)s
         - name: heat-admin-endpoint-create
           dependencies:
             - heat-service-create
           type: single
           command:
-            openstack endpoint create --region RegionOne orchestration admin http://{{ address('heat-api') }}:{{ heat.api_port.cont }}/v1/%\(tenant_id\)s
+            openstack endpoint create --region RegionOne orchestration admin {{ address('heat-api', heat.api_port, with_scheme=True) }}/v1/%\(tenant_id\)s
       daemon:
         dependencies:
           - rabbitmq
