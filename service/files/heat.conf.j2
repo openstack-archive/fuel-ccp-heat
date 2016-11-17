@@ -7,7 +7,7 @@ region_name_for_services = RegionOne
 rpc_backend = rabbit
 
 [database]
-connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address('mariadb') }}/{{ heat.db.name }}
+connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq.user }}
