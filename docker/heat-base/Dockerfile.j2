@@ -8,4 +8,5 @@ RUN useradd --user-group heat \
     && mkdir -p /var/lib/heat /etc/heat \
     && chown -R heat: /var/lib/heat /etc/heat \
     && cp -r /heat/etc/heat/* /etc/heat \
-    && usermod -a -G microservices heat
+    && usermod -a -G microservices heat \
+    && rm -rf /heat
