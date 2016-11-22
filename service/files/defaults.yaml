@@ -10,6 +10,11 @@ configs:
 
     user: heat
     password: password
+    domain:
+      name: heat # for correct work according operate docs, it can not be changed
+      password: password
+      user: heat_domain_admin # for correct work according operate docs, it can not be changed
+
 
     debug: false
 
