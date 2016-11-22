@@ -6,6 +6,9 @@ use_forwarded_for = True
 region_name_for_services = RegionOne
 rpc_backend = rabbit
 
+[clients]
+endpoint_type = internalURL
+
 [database]
 connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}
 
