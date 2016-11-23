@@ -3,6 +3,9 @@ configs:
     api_port:
       cont: 8004
       ingress: orchestration
+    api_cfn_port:
+      cont: 8000
+      ingress: cloudformation
     db:
       username: heat
       password: password
