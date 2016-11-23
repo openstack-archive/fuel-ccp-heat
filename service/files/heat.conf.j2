@@ -45,6 +45,11 @@ auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
 bind_host = {{ network_topology["private"]["address"] }}
 bind_port = {{ heat.api_port.cont }}
 
+[heat_api_cfn]
+bind_host = {{ network_topology["private"]["address"] }}
+bind_port = {{ heat.api_port_cfn.cont }}
+
+
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
