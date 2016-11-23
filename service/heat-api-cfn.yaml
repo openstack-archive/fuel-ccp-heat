@@ -1,0 +1,51 @@
+dsl_version: 0.1.0
+service:
+  name: heat-api-cfn
+  ports:
+    - {{ heat.api_cfn_port }}
+  containers:
+    - name: heat-api-cfn
+      image: heat-api-cfn
+      probes:
+        readiness: "true"
+        liveness:
+          command: "true"
+          type: "exec"
+      pre:
+        - name: heat-cfn-service-create
+          dependencies:
+            - keystone-create-project
+          type: single
+          command:
+            openstack service create --name heat-cfn --description "Heat CloudFormation Service" cloudformation
+        - name: heat-cfn-public-endpoint-create
+          dependencies:
+            - heat-cfn-service-create
+          type: single
+          command:
+            openstack endpoint create --region RegionOne cloudformation public {{ address('heat-api-cfn', heat.api_cfn_port, external=True, with_scheme=True) }}/v1/%\(tenant_id\)s
+        - name: heat-cfn-internal-endpoint-create
+          dependencies:
+            - heat-cfn-service-create
+          type: single
+          command:
+            openstack endpoint create --region RegionOne cloudformation internal {{ address('heat-api-cfn', heat.api_cfn_port, with_scheme=True) }}/v1/%\(tenant_id\)s
+        - name: heat-cfn-admin-endpoint-create
+          dependencies:
+            - heat-cfn-service-create
+          type: single
+          command:
+            openstack endpoint create --region RegionOne cloudformation admin {{ address('heat-api-cfn', heat.api_cfn_port, with_scheme=True) }}/v1/%\(tenant_id\)s
+      daemon:
+        dependencies:
+          - rabbitmq
+          # heat-api in dependencies, because it prepares DB, which will be used
+          - heat-api
+        files:
+          - heat-conf
+        command: heat-api-cfn --config-file /etc/heat/heat.conf
+
+files:
+  heat-conf:
+    path: /etc/heat/heat.conf
+    content: heat.conf.j2
