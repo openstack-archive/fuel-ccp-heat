@@ -10,6 +10,12 @@ configs:
 
     user: heat
     password: password
+    domain:
+      password: password
+      # it is strongly recommended don't change this value
+      name: heat
+      # it is strongly recommended don't change this value
+      user: heat_domain_admin
 
     debug: false
 

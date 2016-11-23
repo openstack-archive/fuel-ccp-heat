@@ -5,6 +5,9 @@ use_stderr = True
 use_forwarded_for = True
 region_name_for_services = RegionOne
 rpc_backend = rabbit
+stack_domain_admin = {{ heat.domain.user }}
+stack_domain_admin_password = {{ heat.domain.password }}
+stack_user_domain_name = {{ heat.domain.name }}
 
 [database]
 connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}
