@@ -65,7 +65,7 @@ service:
             openstack endpoint create --region RegionOne orchestration admin {{ address('heat-api', heat.api_port, with_scheme=True) }}/v1/%\(tenant_id\)s
         # Orchestration requires additional information in the Identity service to manage stacks.
         # For detailed explanation see: http://docs.openstack.org/project-install-guide/orchestration/newton/install-ubuntu.html
-        - name: keystone-create-heat-domain
+        - name: heat-create-domain
           type: single
           command:
             openstack domain create --description "Owns users and projects created by heat" {{ heat.domain.name }}
@@ -74,7 +74,7 @@ service:
           command:
             openstack user create --domain {{ heat.domain.name }} --password {{ heat.domain.password }}  {{ heat.domain.user }}
           dependencies:
-            - keystone-create-heat-domain
+            - heat-create-domain
         - name: grant-doman-user-admin-privileges
           type: single
           command:
