@@ -33,7 +33,7 @@ service:
           type: single
           command:
             openstack user create --domain default --password {{ heat.password }} {{ heat.user }}
-        - name: heat-role-add
+        - name: heat-admin-role-add
           dependencies:
             - heat-user-create
           type: single
@@ -63,6 +63,38 @@ service:
           type: single
           command:
             openstack endpoint create --region RegionOne orchestration admin {{ address('heat-api', heat.api_port, with_scheme=True) }}/v1/%\(tenant_id\)s
+        # Orchestration requires additional information in the Identity service to manage stacks.
+        # For detailed explanation see: http://docs.openstack.org/project-install-guide/orchestration/newton/install-ubuntu.html
+        - name: keystone-create-heat-domain
+          type: single
+          command:
+            openstack domain create --description "Owns users and projects created by heat" {{ heat.domain.name }}
+        - name: heat-domain-admin-user-create
+          type: single
+          command:
+            openstack user create --domain {{ heat.domain.name }} --password {{ heat.domain.password }}  {{ heat.domain.user }}
+          dependencies:
+            - keystone-create-heat-domain
+        - name: grant-doman-user-admin-privileges
+          type: single
+          command:
+            openstack role add --domain {{ heat.domain.name }} --user-domain {{ heat.domain.name }} --user {{ heat.domain.user }} admin
+          dependencies:
+            - heat-domain-admin-user-create
+        # You must add the heat_stack_owner role to each user that manages stacks after addinf new users.
+        - name: heat-stack-owner-role-create
+          type: single
+          command:
+            openstack role create heat_stack_owner
+          dependencies:
+            - grant-doman-user-admin-privileges
+        # The Orchestration service automatically assigns the heat_stack_user role to users that it creates during stack deployment.
+        - name: heat-stack-user-role-create
+          type: single
+          command:
+            openstack role create heat_stack_user
+          dependencies:
+            - grant-doman-user-admin-privileges
       daemon:
         dependencies:
           - rabbitmq
