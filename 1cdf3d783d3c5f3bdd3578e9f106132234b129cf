@@ -1,0 +1,10 @@
+Code-Review+2: Artur Zarzycki <azarzycki@mirantis.com>
+Code-Review+2: Andrey Pavlov <apavlov@mirantis.com>
+Code-Review+2: Yuriy Taraday <yorik.sar@gmail.com>
+Workflow+1: Yuriy Taraday <yorik.sar@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 01 Dec 2016 09:41:27 +0000
+Reviewed-on: https://review.openstack.org/402045
+Project: openstack/fuel-ccp-heat
+Branch: refs/heads/master
