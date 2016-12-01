@@ -47,6 +47,9 @@ auth_type = password
 [clients_keystone]
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
 
+[clients_heat]
+endpoint_type = {{ heat.heat_endpoint_type }}
+
 [heat_api]
 bind_host = {{ network_topology["private"]["address"] }}
 bind_port = {{ heat.api_port.cont }}
