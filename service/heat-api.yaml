@@ -38,7 +38,7 @@ service:
             - heat-user-create
           type: single
           command:
-            openstack role add --project {{ openstack.project_name }} --user {{ heat.user }} admin
+            openstack role add --project service --user {{ heat.user }} admin
         - name: heat-service-create
           dependencies:
             - keystone-create-project

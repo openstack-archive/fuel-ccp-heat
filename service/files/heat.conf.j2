@@ -31,7 +31,7 @@ auth_url = {{ address('keystone', keystone.admin_port, with_scheme=True) }}/v3
 auth_type = password
 project_domain_id = default
 user_domain_id = default
-project_name = {{ openstack.project_name }}
+project_name = service
 username = {{ heat.user }}
 password = {{ heat.password }}
 memcached_servers = {{ address('memcached', memcached.port) }}
