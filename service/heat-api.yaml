@@ -6,12 +6,6 @@ service:
   containers:
     - name: heat-api
       image: heat-api
-      # TODO(drusskikh): add probes
-      probes:
-        readiness: "true"
-        liveness:
-          command: "true"
-          type: "exec"
       pre:
         - name: heat-db-create
           dependencies:

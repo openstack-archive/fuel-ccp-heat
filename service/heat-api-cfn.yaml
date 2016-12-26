@@ -6,11 +6,6 @@ service:
   containers:
     - name: heat-api-cfn
       image: heat-api-cfn
-      probes:
-        readiness: "true"
-        liveness:
-          command: "true"
-          type: "exec"
       pre:
         - name: heat-cfn-service-create
           dependencies:
