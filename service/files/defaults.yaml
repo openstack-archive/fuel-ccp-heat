@@ -20,6 +20,8 @@ configs:
       # it is strongly recommended don't change this value
       user: heat_domain_admin
 
+    heat_endpoint_type: internalURL
+
     debug: false
 
 sources:
