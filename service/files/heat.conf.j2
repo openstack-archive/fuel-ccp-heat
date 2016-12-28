@@ -4,7 +4,6 @@ use_syslog = False
 use_stderr = True
 use_forwarded_for = True
 region_name_for_services = RegionOne
-rpc_backend = rabbit
 rpc_response_timeout=600
 stack_domain_admin = {{ heat.domain.user }}
 stack_domain_admin_password = {{ heat.domain.password }}
@@ -12,18 +11,11 @@ stack_user_domain_name = {{ heat.domain.name }}
 heat_waitcondition_server_url = {{ address('heat-api-cfn', heat.api_cfn_port, external=True, with_scheme=True) }}/v1/waitcondition
 heat_metadata_server_url = {{ address('heat-api-cfn', heat.api_cfn_port, external=True, with_scheme=True) }}
 
-
 [clients]
 endpoint_type = internalURL
 
 [database]
 connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}
-
-[oslo_messaging_rabbit]
-rabbit_userid = {{ rabbitmq.user }}
-rabbit_password = {{ rabbitmq.password }}
-rabbit_ha_queues = true
-rabbit_hosts = rabbitmq
 
 [keystone_authtoken]
 auth_version = v3
@@ -59,8 +51,11 @@ bind_port = {{ heat.api_port.cont }}
 bind_host = {{ network_topology["private"]["address"] }}
 bind_port = {{ heat.api_cfn_port.cont }}
 
-
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
 memcache_servers = {{ address('memcached', memcached.port) }}
+
+{# messaging macros template #}
+{{ oslo_messaging[messaging.backend.rpc]('rpc_config') }}
+{{ oslo_messaging[messaging.backend.notifications]('notifications_config') }}
