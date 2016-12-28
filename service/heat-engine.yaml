@@ -8,7 +8,7 @@ service:
         command: heat-engine --config-file /etc/heat/heat.conf
         dependencies:
           - heat-api
-          - rabbitmq
+          - "{{ messaging.dependencies[messaging.backend.rpc] }}"
         files:
           - heat.conf
 files:
