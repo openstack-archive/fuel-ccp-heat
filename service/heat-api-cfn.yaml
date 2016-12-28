@@ -33,7 +33,7 @@ service:
             openstack endpoint create --region RegionOne cloudformation admin {{ address('heat-api-cfn', heat.api_cfn_port, with_scheme=True) }}/v1
       daemon:
         dependencies:
-          - rabbitmq
+          - "{{ messaging.dependencies[messaging.backend.rpc] }}"
           # heat-api in dependencies, because it prepares DB, which will be used
           - heat-api
         files:
