@@ -91,7 +91,7 @@ service:
             - grant-doman-user-admin-privileges
       daemon:
         dependencies:
-          - rabbitmq
+          - "{{ messaging.dependencies[messaging.backend.rpc] }}"
         files:
           - heat-conf
         command: heat-api --config-file /etc/heat/heat.conf
