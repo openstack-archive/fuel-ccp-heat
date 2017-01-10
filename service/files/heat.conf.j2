@@ -5,6 +5,7 @@ use_stderr = True
 use_forwarded_for = True
 region_name_for_services = RegionOne
 rpc_backend = rabbit
+rpc_response_timeout=600
 stack_domain_admin = {{ heat.domain.user }}
 stack_domain_admin_password = {{ heat.domain.password }}
 stack_user_domain_name = {{ heat.domain.name }}
