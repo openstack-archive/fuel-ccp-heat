@@ -11,6 +11,7 @@ stack_domain_admin_password = {{ heat.domain.password }}
 stack_user_domain_name = {{ heat.domain.name }}
 heat_waitcondition_server_url = {{ address('heat-api-cfn', heat.api_cfn_port, external=True, with_scheme=True) }}/v1/waitcondition
 heat_metadata_server_url = {{ address('heat-api-cfn', heat.api_cfn_port, external=True, with_scheme=True) }}
+reauthentication_auth_method = trusts
 
 
 [clients]
