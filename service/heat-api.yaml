@@ -63,6 +63,8 @@ service:
           type: single
           command:
             openstack domain create --description "Owns users and projects created by heat" {{ heat.domain.name }}
+          dependencies:
+            - keystone
         - name: heat-domain-admin-user-create
           type: single
           command:
