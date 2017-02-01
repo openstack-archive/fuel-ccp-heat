@@ -36,6 +36,7 @@ password = {{ heat.password }}
 username = {{ heat.user }}
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
 auth_url = {{ address('keystone', keystone.admin_port, with_scheme=True) }}
+auth_plugin = password
 auth_type = password
 
 [clients_keystone]
