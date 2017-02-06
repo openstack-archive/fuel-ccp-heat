@@ -71,7 +71,7 @@ service:
             openstack user create --domain {{ heat.domain.name }} --password {{ heat.domain.password }}  {{ heat.domain.user }}
           dependencies:
             - heat-create-domain
-        - name: grant-doman-user-admin-privileges
+        - name: heat-grant-doman-user-admin-privileges
           type: single
           command:
             openstack role add --domain {{ heat.domain.name }} --user-domain {{ heat.domain.name }} --user {{ heat.domain.user }} admin
