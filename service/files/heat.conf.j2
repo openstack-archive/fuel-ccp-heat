@@ -29,18 +29,39 @@ auth_url = {{ address('keystone', keystone.admin_port, with_scheme=True) }}
 auth_plugin = password
 auth_type = password
 
+{% if heat.tls.enabled %}
+[oslo_middleware]
+enable_proxy_headers_parsing = true
+{% endif %}
+
+{% if heat.tls.enabled %}
+[ec2authtoken]
+ca_file = /opt/ccp/etc/tls/ca.pem
+{% endif %}
+
 [clients_keystone]
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
+{% if heat.tls.enabled %}
+ca_file = /opt/ccp/etc/tls/ca.pem
+{% endif %}
 
 [clients_heat]
 endpoint_type = {{ heat.heat_endpoint_type }}
 
 [heat_api]
+{% if heat.tls.enabled %}
+bind_host = 127.0.0.1
+{% else %}
 bind_host = {{ network_topology["private"]["address"] }}
+{% endif %}
 bind_port = {{ heat.api_port.cont }}
 
 [heat_api_cfn]
+{% if heat.tls.enabled %}
+bind_host = 127.0.0.1
+{% else %}
 bind_host = {{ network_topology["private"]["address"] }}
+{% endif %}
 bind_port = {{ heat.api_cfn_port.cont }}
 
 [cache]
