@@ -1,0 +1,9 @@
+server {
+    listen {{ network_topology["private"]["address"] }}:{{ heat.api_cfn_port.cont }};
+    include common/ssl.conf;
+
+    location / {
+        proxy_pass http://heat_api_cfn;
+        include common/proxy-headers.conf;
+    }
+}

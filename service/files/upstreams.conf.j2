@@ -1,0 +1,6 @@
+upstream heat_api {
+    server 127.0.0.1:{{ heat.api_port.cont }};
+}
+upstream heat_api_cfn {
+    server 127.0.0.1:{{ heat.api_cfn_port.cont }};
+}
