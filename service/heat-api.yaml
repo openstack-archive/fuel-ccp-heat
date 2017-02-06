@@ -71,7 +71,7 @@ service:
             openstack user create --domain {{ heat.domain.name }} --password {{ heat.domain.password }}  {{ heat.domain.user }}
           dependencies:
             - heat-create-domain
-        - name: grant-doman-user-admin-privileges
+        - name: heat-grant-doman-user-admin-privileges
           type: single
           command:
             openstack role add --domain {{ heat.domain.name }} --user-domain {{ heat.domain.name }} --user {{ heat.domain.user }} admin
@@ -83,14 +83,14 @@ service:
           command:
             openstack role create heat_stack_owner
           dependencies:
-            - grant-doman-user-admin-privileges
+            - heat-grant-doman-user-admin-privileges
         # The Orchestration service automatically assigns the heat_stack_user role to users that it creates during stack deployment.
         - name: heat-stack-user-role-create
           type: single
           command:
             openstack role create heat_stack_user
           dependencies:
-            - grant-doman-user-admin-privileges
+            - heat-grant-doman-user-admin-privileges
       daemon:
         dependencies:
           - "{{ messaging.dependencies[messaging.backend.rpc] }}"
