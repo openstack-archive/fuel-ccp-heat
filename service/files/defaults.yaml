@@ -1,5 +1,7 @@
 configs:
   heat:
+    tls:
+      enabled: true
     api_port:
       cont: 8004
       ingress: orchestration
