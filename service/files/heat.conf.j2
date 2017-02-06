@@ -22,6 +22,7 @@ connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ ad
 auth_version = v3
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}/v3
 auth_url = {{ address('keystone', keystone.admin_port, with_scheme=True) }}/v3
+cafile = /opt/ccp/etc/tls/ca.pem
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -39,18 +40,37 @@ auth_url = {{ address('keystone', keystone.admin_port, with_scheme=True) }}
 auth_plugin = password
 auth_type = password
 
+{% if security.tls.openstack.enabled %}
+[ec2authtoken]
+ca_file = /opt/ccp/etc/tls/ca.pem
+
+[oslo_middleware]
+enable_proxy_headers_parsing = true
+{% endif %}
+
 [clients_keystone]
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
+{% if security.tls.openstack.enabled %}
+ca_file = /opt/ccp/etc/tls/ca.pem
+{% endif %}
 
 [clients_heat]
 endpoint_type = {{ heat.heat_endpoint_type }}
 
 [heat_api]
+{% if security.tls.openstack.enabled %}
+bind_host = 127.0.0.1
+{% else %}
 bind_host = {{ network_topology["private"]["address"] }}
+{% endif %}
 bind_port = {{ heat.api_port.cont }}
 
 [heat_api_cfn]
+{% if security.tls.openstack.enabled %}
+bind_host = 127.0.0.1
+{% else %}
 bind_host = {{ network_topology["private"]["address"] }}
+{% endif %}
 bind_port = {{ heat.api_cfn_port.cont }}
 
 [cache]

@@ -12,8 +12,16 @@ service:
           - "{{ messaging.dependencies[messaging.backend.notifications] }}"
         files:
           - heat.conf
+          # {% if security.tls.openstack.enabled %}
+          - ca_cert
+          # {% endif %}
 files:
   heat.conf:
     path: /etc/heat/heat.conf
     content: heat.conf.j2
     perm: "0600"
+  # {% if security.tls.openstack.enabled %}
+  ca_cert:
+    path: /opt/ccp/etc/tls/ca.pem
+    content: ca-cert.pem.j2
+  # {% endif %}
