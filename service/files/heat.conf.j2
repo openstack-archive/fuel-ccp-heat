@@ -58,6 +58,9 @@ backend = oslo_cache.memcache_pool
 enabled = True
 memcache_servers = {{ address('memcached', memcached.port) }}
 
+[oslo_middleware]
+enable_proxy_headers_parsing = true
+
 {# messaging macros template #}
 {{ oslo_messaging[messaging.backend.rpc]('rpc_config') }}
 {{ oslo_messaging[messaging.backend.notifications]('notifications_config') }}
