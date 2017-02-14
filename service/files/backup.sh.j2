@@ -1,0 +1,6 @@
+#!/bin/bash -ex
+set -o pipefail
+BACKUP_FILE="/var/ccp/backup/heat/backup-$(date "+%Y%m%d%H%M%S").sql"
+mysqldump {% if db.tls.enabled %} --ssl-mode REQUIRED {% endif %} -h {{ address(service.database) }} \
+    -u {{ heat.db.username }} -p{{ heat.db.password }} \
+    --single-transaction {{ heat.db.name }} > "${BACKUP_FILE}"
