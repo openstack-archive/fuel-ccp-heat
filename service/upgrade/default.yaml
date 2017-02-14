@@ -1,0 +1,37 @@
+upgrade:
+  name: upgrade-heat
+  image: heat-upgrade
+  steps:
+    - name: backup
+      command: /opt/ccp/bin/backup.sh
+      files:
+        - backup-sh
+      volumes:
+        - name: backup-dir
+          path: /var/ccp/backup/heat
+          type: host
+          readOnly: false
+      topology_key: backup
+    - name: db-sync
+      command: heat-manage db_sync
+      files:
+        - heat-conf
+    - name: kill-services
+      type: kill-services
+    - name: roll-api
+      type: rolling-upgrade
+      services:
+        - heat-api
+    - name: roll-services
+      type: rolling-upgrade
+      services:
+        - heat-api-cfn
+        - heat-engine
+files:
+  heat-conf:
+    path: /etc/heat/heat.conf
+    content: heat.conf.j2
+  backup-sh:
+    path: /opt/ccp/bin/backup.sh
+    content: backup.sh.j2
+    perm: "500"
