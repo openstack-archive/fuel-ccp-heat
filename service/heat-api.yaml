@@ -26,19 +26,19 @@ service:
           command: heat-manage db_sync
         - name: heat-user-create
           dependencies:
-            - keystone-create-project
+            - keystone-create-domain
           type: single
           command:
-            openstack user create --domain default --password {{ heat.password }} {{ heat.user }}
+            openstack user create --domain {{ service_account.domain }} --password {{ heat.password }} {{ heat.user }}
         - name: heat-admin-role-add
           dependencies:
             - heat-user-create
           type: single
           command:
-            openstack role add --project service --user {{ heat.user }} admin
+            openstack role add --domain {{ service_account.domain }} --user {{ heat.user }} admin
         - name: heat-service-create
           dependencies:
-            - keystone-create-project
+            - keystone
           type: single
           command:
             openstack service create --name heat --description "OpenStack orchestration service" orchestration
