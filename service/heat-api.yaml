@@ -35,7 +35,7 @@ service:
             - heat-user-create
           type: single
           command:
-            openstack role add --domain {{ service_account.domain }} --user {{ heat.user }} admin
+            openstack role add --project {{ service_account.project }} --user {{ heat.user }} admin
         - name: heat-service-create
           dependencies:
             - keystone
