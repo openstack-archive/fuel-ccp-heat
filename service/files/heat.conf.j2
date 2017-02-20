@@ -16,7 +16,7 @@ reauthentication_auth_method = trusts
 endpoint_type = internalURL
 
 [database]
-connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}{% if percona.tls.enabled %}?ssl_ca=/opt/ccp/etc/tls/ca.pem{% endif %}
+connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ address(service.database) }}/{{ heat.db.name }}{% if db.tls.enabled %}?ssl_ca=/opt/ccp/etc/tls/ca.pem{% endif %}
 
 {{ keystone_authtoken.keystone_authtoken(heat.user, heat.password) }}
 
