@@ -54,3 +54,4 @@ enable_proxy_headers_parsing = true
 {# messaging macros template #}
 {{ oslo_messaging[messaging.backend.rpc]('rpc_config') }}
 {{ oslo_messaging[messaging.backend.notifications]('notifications_config') }}
+{{ oslo_messaging.rabbit_tls() }}
