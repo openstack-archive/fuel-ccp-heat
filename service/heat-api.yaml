@@ -97,6 +97,7 @@ service:
       daemon:
         dependencies:
           - "{{ messaging.dependencies[messaging.backend.rpc] }}"
+          - memcached
         files:
           - heat-conf
         command: heat-api --config-file /etc/heat/heat.conf
