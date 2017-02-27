@@ -9,10 +9,10 @@ service:
       pre:
         - name: heat-db-create
           dependencies:
-            - {{ service.database }}
+            - database
           type: single
           command:
-            mysql -u root -p{{ db.root_password }} -h {{ address(service.database) }} -e "create database {{ heat.db.name }};
+            mysql -u root -p{{ db.root_password }} -h {{ address("database") }} -e "create database {{ heat.db.name }};
             create user '{{ heat.db.username }}'@'%' identified by '{{ heat.db.password }}'
             {% if db.tls.enabled %} require ssl {% endif %};
             grant all privileges on {{ heat.db.name }}.* to '{{ heat.db.username }}'@'%' identified by '{{ heat.db.password }}'
