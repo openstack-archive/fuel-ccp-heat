@@ -8,8 +8,8 @@ service:
         command: heat-engine --config-file /etc/heat/heat.conf
         dependencies:
           - heat-api
-          - "{{ messaging.dependencies[messaging.backend.rpc] }}"
-          - "{{ messaging.dependencies[messaging.backend.notifications] }}"
+          - rpc
+          - notifications
         files:
           - heat.conf
 files:
