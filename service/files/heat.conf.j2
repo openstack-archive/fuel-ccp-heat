@@ -21,7 +21,8 @@ connection = mysql+pymysql://{{ heat.db.username }}:{{ heat.db.password }}@{{ ad
 {{ keystone_authtoken.keystone_authtoken(heat.user, heat.password) }}
 
 [trustee]
-user_domain_id = default
+user_domain_name = {{ service_account.domain }}
+project_domain_name = {{ service_account.domain }}
 password = {{ heat.password }}
 username = {{ heat.user }}
 auth_uri = {{ address('keystone', keystone.public_port, with_scheme=True) }}
