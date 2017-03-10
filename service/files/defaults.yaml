@@ -8,6 +8,13 @@ configs:
     api_cfn_port:
       cont: 8000
       ingress: cloudformation
+
+    heat_endpoint_type: internalURL
+
+    debug: false
+
+secret_configs:
+  heat:
     db:
       username: heat
       password: password
@@ -21,10 +28,6 @@ configs:
       name: heat
       # it is strongly recommended don't change this value
       user: heat_domain_admin
-
-    heat_endpoint_type: internalURL
-
-    debug: false
 
 sources:
   openstack/heat:
