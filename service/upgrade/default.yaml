@@ -24,6 +24,7 @@ upgrade:
         - heat-api
     - name: roll-api-cfn
       type: rolling-upgrade
+      services:
         - heat-api-cfn
     - name: roll-engine
       type: rolling-upgrade
