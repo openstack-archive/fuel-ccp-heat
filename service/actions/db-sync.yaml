@@ -1,9 +1,0 @@
-actions:
-  - name: heat-db-sync
-    image: heat-base
-    dependencies:
-      - heat-db-create
-    command: heat-manage db_sync
-    files:
-      - path: /etc/heat/heat.conf
-        content: heat.conf.j2
